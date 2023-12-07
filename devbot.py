@@ -9,6 +9,7 @@
 import requests
 import json
 import time
+
 # 2. Complete the if statement to ask the user for the Webex access token.
 choice = input("Do you wish to use the hard-coded Webex token? (y/n) ")
 
@@ -16,10 +17,9 @@ if choice.upper() == "N":
     accessToken = input("Enter your Webex access token")
 else:
 	accessToken = "NTFhN2ZjNWItZTA3Zi00N2E3LWE3NTYtOTAyYzYxY2FiNjRmZjNkMzQzODQtMmI1_PC75_f1a9c66d-3eff-454d-9c51-a4e0afcd770b"
-
 # 3. Provide the URL to the Webex Teams room API.
 r = requests.get(   "https://webexapis.com/v1/rooms",
-                    headers = {"Authorization": accessToken}
+                    headers = {"Authorization": f"Bearer {accessToken}"}
                 )
 
 #####################################################################################
@@ -78,7 +78,7 @@ while True:
 # 5. Provide the URL to the Webex Teams messages API.
     r = requests.get("https://webexapis.com/v1/messages", 
                          params = GetParameters, 
-                         headers = {"Authorization": accessToken}
+                         headers = {"Authorization": f"Bearer {accessToken}"}
                     )
 
     if not r.status_code == 200:
@@ -100,7 +100,7 @@ while True:
                                 "key": "W0r7oRL5G1Px8jPbdJpQXk0fKfllvtNx"
                                }
 # 7. Provide the URL to the MapQuest GeoCode API.
-        r = requests.get("https://www.mapquestapi.com/geocoding/v1/address?key=yW0r7oRL5G1Px8jPbdJpQXk0fKfllvtNx&location=Sudbury,ON", 
+        r = requests.get("https://www.mapquestapi.com/geocoding/v1/address", 
                              params = mapsAPIGetParameters
                         )
         json_data = r.json()
@@ -136,7 +136,7 @@ while True:
         sunsetTime = json_data["results"]["sunset"]
 
 # 11. Complete the code to format the response message.
-        responseMessage = "In {locationResults} the sun will rise at {sunriseTime} and will set at {sunsetTime} . The day will last {dayLengthSeconds} seconds.".format(<!!!REPLACEME with the four variables used in this printout!!!>)
+        responseMessage = "In {} the sun will rise at {} and will set at {} . The day will last {} seconds.".format(location, sunriseTime, sunsetTime, dayLengthSeconds)
 
         print("Sending to Webex Teams: " +responseMessage)
 
